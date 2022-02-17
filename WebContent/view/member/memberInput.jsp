@@ -60,7 +60,7 @@
 		if(id.length < 8){
 			result.style.color='red'
 			result.innerHTML = "id는 8자리 이상 입력 하세요"
-		}
+		} 
 		else{
 			// 데이터베이스에서 입력 id확인
 			ajax("<%=request.getContextPath()%>/single/readId.jsp",param, callback, 'post')
