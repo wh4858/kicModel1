@@ -9,9 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%	
-	String msg = "";
+<%
 	String url = "";
+	String msg = "";
 	String login = (String) session.getAttribute("memberId");
 	// 로그인이 안되면
 	if(login == null || login.trim().equals("")) {
@@ -23,32 +23,32 @@
 <%	
 		}
 	else {
-		String pass = request.getParameter("pass");
-		
 		MemberDao md = new MemberDao();
-		Member mb = md.selectOne(login);
-		if(mb.getPass().equals(pass)){
-			int num = md.deleteMember(login);
-			
-			if(num == 0){  //  삭제 안된 경우  
-				msg = login+"님의 탈퇴시 오류 발생";
-				url = request.getContextPath()+"/view/main.jsp";
+		Member mem = md.selectOne(login);
+		String pass = request.getParameter("pass");
+		String newPass = request.getParameter("newPass");
+		
+		if(pass.equals(mem.getPass())){
+			if(md.changePass(login, newPass) > 0){
+				msg = "비밀번호가 변경되었습니다.";
+				url = "main.jsp";
 			}
-			else{			// 삭제가 제대로 된 경우
-				session.invalidate();
-				msg = login+"님의 탈퇴가 완료되었습니다.";
-				url = request.getContextPath()+"/view/main.jsp";
+			else{
+				msg = "비밀번호 변경중 오류가 발생 되었습니다.";
+				url = "main.jsp";
 			}
 		}
-		else{		// 비밀번호가 틀린 경우
-			msg = "비밀번호가 틀렸습니다.";
-			url = request.getContextPath()+"/view/member/deleteForm.jsp";
+		else{
+			msg = "비밀번호가 틀렸습니다";
+			url = "member/passwordForm.jsp";
 		}
+		
 	}
 %>
 <script type="text/javascript">
-	alert("<%=msg%>");
-	location.href="<%=url%>";
+	alert("<%=msg%>")
+	location.href = "<%=request.getContextPath()%>/view/<%=url%>"
+
 </script>
 </body>
 </html>

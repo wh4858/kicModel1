@@ -17,7 +17,8 @@
 	<url-pattern>/view/*</url-pattern>
 	<!--자동으로 url-pattern에 명시된 파일들에게 헤더파일을 연결-->
 	<include-prelude>/common/head.jsp</include-prelude>
-	<!--<include-coda>/common/footer.jsp</include-coda>-->
+	<include-coda>/common/footer.jsp</include-coda>
 	</jsp-property-group>
 	</jsp-config>
+	
 </web-app>

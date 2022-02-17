@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -73,14 +75,15 @@ public class MemberDao {
 	public int memberUpdate(Member mem) {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement ps = null;
-		String sql = "update member set tel = ? , email = ? where id = ?";
+		String sql = "update member set tel = ? , email = ?, picture = ? where id = ?";
 		
 		try {
 			ps = con.prepareStatement(sql);
 			//  ?,?,?를 채워주는 메서드
 			ps.setString(1, mem.getTel());
 			ps.setString(2, mem.getEmail());
-			ps.setString(3, mem.getId());
+			ps.setString(3, mem.getPicture());
+			ps.setString(4, mem.getId());
 			
 			// ?를 채운후 전송해주는 메서드 에러가 없으면 ps를 반환
 			return ps.executeUpdate();
@@ -110,4 +113,51 @@ public class MemberDao {
 		return 0;
 	}
 	
+	public int changePass(String id, String pass) {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement ps = null;
+		String sql = "update member set pass = ? where id = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, pass);
+			ps.setString(2, id);
+			return ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JdbcConnection.close(con, ps, null);
+		}
+		
+		return 0;
+	}
+	
+	public List<Member> memberList() {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from member";
+		List<Member> li = new ArrayList<Member>();
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Member m = new Member(
+					rs.getString("id"),
+					rs.getString("pass"),
+					rs.getString("name"),
+					rs.getInt("gender"),
+					rs.getString("tel"),
+					rs.getString("email"),	
+					rs.getString("picture")
+						);
+				li.add(m);
+			}
+			return li;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con, ps, rs);
+		}
+		return null;
+	}
 }// end class

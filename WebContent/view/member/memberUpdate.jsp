@@ -8,6 +8,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript">
+	function win_upload(){
+		const op = "width=500, height=150, left=200, top=250";
+		open("<%=request.getContextPath()%>/single/pictureForm.jsp", "" , op);
+		
+	}
+
+</script>
 <body>
 <%
 	String login = (String) session.getAttribute("memberId");
@@ -31,10 +39,13 @@
 <hr>
 	<div class="container">
 		<h2   id="center">회원 정보 수정</h2>
-		<form action="<%=request.getContextPath() %>/view/member/memberUpdatePro.jsp" method ="post">
+		<form action="<%=request.getContextPath() %>/view/member/memberUpdatePro.jsp" method ="post" name="f">
+											<!-- value가 없으면 사진 이름이 전송안된다 -->
+		<input type="hidden" name="picture" value ="<%=mem.getPicture()%>">
 		<div class="row">
 			<div class="col-3   bg-light">
-				<img src="<%= request.getContextPath()%>/upload/<%=mem.getPicture()%>" width="200" height="220" id="pic">
+				<img src="<%= request.getContextPath()%>/upload/<%=mem.getPicture()%>" width="200" height="220" id="pic"><br>
+				<button type = "button" class="btn btn-dark" onclick="win_upload()">사진등록</button>
 			</div>
 			
 			<div class="col-9">
@@ -66,6 +77,8 @@
 
 	<div id="center" style="padding: 3px;">
 		<button type="submit" class="btn btn-dark">정보수정</button>
+		<button type="button" class="btn btn-dark"
+			onclick="location.href='<%=request.getContextPath()%>/view/member/passwordForm.jsp'">비밀번호 변경</button>
 	</div>
 	</form>
 </div>

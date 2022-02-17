@@ -12,12 +12,12 @@
 	request.setCharacterEncoding("utf-8");
 	MemberDao md = new MemberDao();
 	int num = md.insertMember(request);
-	String name = request.getParameter("name");
+	String id = request.getParameter("id");
 
 	String msg = "";
 	String url = "";
 	if ( num > 0){ 
-		msg = name +"님의 가입이 완료 되었습니다.";
+		msg = id +"님의 가입이 완료 되었습니다.";
 		url = request.getContextPath()+"/view/member/loginForm.jsp";
 	}
 	else{
