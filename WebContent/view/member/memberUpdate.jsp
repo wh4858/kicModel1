@@ -29,8 +29,6 @@
 <%	
 		}
 	else {
-%>
-<%
 // 해당 id가 member테이블에 있으면 그 id에 해당하는 정보를 mem에 저장한다
 	MemberDao md = new MemberDao();
 	// id가 없으면 mem = null 있으면 mem이 반환
