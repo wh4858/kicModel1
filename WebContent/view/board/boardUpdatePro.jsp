@@ -25,7 +25,7 @@
 	BoardDao bd = new BoardDao();
 	
 	
-	// 파일 수정시 수정이 발생하지않은 경우  예외처리
+	// 수정한 게시글에 파일첨부가없으면 원본에 파일첨부한걸 넣는다.
 	if(board.getFile1() == null || board.getFile1().equals("")){
 		board.setFile1(multi.getParameter("file2"));
 	}
